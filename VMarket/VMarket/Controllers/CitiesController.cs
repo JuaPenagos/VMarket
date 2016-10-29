@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using VMarket.Classes;
 using VMarket.Models;
 
 namespace VMarket.Controllers
@@ -39,7 +40,11 @@ namespace VMarket.Controllers
         // GET: Cities/Create
         public ActionResult Create()
         {
-            ViewBag.DepartmentId = new SelectList(db.Departments, "DepartmentId", "Name");
+
+            
+
+            var Department = ComboxHelper.GetDepartment();
+            ViewBag.DepartmentId = new SelectList(Department, "DepartmentId", "Name");
             return View();
         }
 
@@ -57,7 +62,9 @@ namespace VMarket.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.DepartmentId = new SelectList(db.Departments, "DepartmentId", "Name", city.DepartmentId);
+
+            var Department = ComboxHelper.GetDepartment();
+            ViewBag.DepartmentId = new SelectList(Department, "DepartmentId", "Name");
             return View(city);
         }
 
@@ -73,7 +80,8 @@ namespace VMarket.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.DepartmentId = new SelectList(db.Departments, "DepartmentId", "Name", city.DepartmentId);
+            var Department = ComboxHelper.GetDepartment();
+            ViewBag.DepartmentId = new SelectList(Department, "DepartmentId", "Name");
             return View(city);
         }
 
@@ -90,7 +98,8 @@ namespace VMarket.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.DepartmentId = new SelectList(db.Departments, "DepartmentId", "Name", city.DepartmentId);
+            var Department = ComboxHelper.GetDepartment();
+            ViewBag.DepartmentId = new SelectList(Department, "DepartmentId", "Name");
             return View(city);
         }
 

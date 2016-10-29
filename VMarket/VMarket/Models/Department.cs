@@ -17,5 +17,6 @@ namespace VMarket.Models
         public String Name { get; set; }
 
         public virtual ICollection<City> Cities { get; set; }
+
     }
 }

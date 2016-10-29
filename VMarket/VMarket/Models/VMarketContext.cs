@@ -20,5 +20,9 @@ namespace VMarket.Models
         public System.Data.Entity.DbSet<VMarket.Models.State> States { get; set; }
 
         public System.Data.Entity.DbSet<VMarket.Models.Category> Categories { get; set; }
+
+        public System.Data.Entity.DbSet<VMarket.Models.Product> Products { get; set; }
+
+        public System.Data.Entity.DbSet<VMarket.Models.Company> Companies { get; set; }
     }
 }

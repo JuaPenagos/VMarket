@@ -1,7 +1,7 @@
 ﻿var myApp = angular.module("Producto", []);
 myApp.controller("ProductoCtrl", function ($scope, $http) {
 
-    $http.get("getProducts").success(function (data) {
+    $http.get("../Products/getProducts").success(function (data) {
         
         $scope.Products = data;
         
@@ -15,10 +15,14 @@ myApp.controller("ProductoCtrl", function ($scope, $http) {
 
         console.log("Hola");
         
-        
         console.log(aproducts);
         $scope.Product.push(aproducts);
     };
+    $scope.eliminarProducto = function (aproduct) {
+        
+        var pos = $scope.Product.indexOf(aproduct);
+        $scope.Product.splice(pos);
+    }
 
     $scope.getTotal = function () {
         var total = 0;
@@ -28,24 +32,49 @@ myApp.controller("ProductoCtrl", function ($scope, $http) {
         }
         return total;
     }
+    $scope.getNumeroProductos = function () {
+        var Numero = 0;
+        Numero = $scope.Products.length;
+        return Numero;
+    }
 
 
-
-
-    $scope.agregarPersonas = function (personas) {
+   
+    $scope.agregarOrden = function (Product) {
+        OrderDetails = [{
+            OrderDetailId: 1,
+            Order: null,
+            Product: null,
+            Cantidad: 20,
+            Subtotal: 0
+        }];
         console.log("Hola");
+        var orden = {OrderId :0,
+            Fecha : 2016-09-16
+        };
+        
+        var obj = $(this);
+       
+ 
+        OrderDetails[0].Order = orden;
+        OrderDetails[0].ProductId =  $scope.Product[0].ProductId ;
+        OrderDetails[0].Cantidad = $scope.Product[0].CantidadReal;
+        OrderDetails[0].OrderDetailId = 2;
+        OrderDetails[0].Subtotal = $scope.Product[0].Cantidad * $scope.Product[0].Precio
+
+        OrderDetails = { OrderDetails: OrderDetails }
+        
+        console.log(OrderDetails);
         $http({
             traditional: true,
-            url: "Personas/Create",
+            contentType: 'application/json; charset=utf-8',
+            url: "../OrderDetails/Guardar",
             method: "POST",
-            data: JSON.stringify(personas),
+            data:  JSON.stringify(OrderDetails),
             dataType: "json"
+
         }).success(function (data) {
-
-
-            alert("insert Success");
-            $scope.Personas.push(angular.copy(personas));
-
+            console.log("Producto Guardado")
         })
     };
     $scope.ObtenerCiudad = function (ciudadId) {

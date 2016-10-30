@@ -1,0 +1,65 @@
+﻿@model IEnumerable<VMarket.Models.OrderDetail>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Order.OrderId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order.Fecha)
+            </th>
+            <th>
+                Producto
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cantidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subtotal)
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Order.OrderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Order.Fecha)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cantidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subtotal)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.OrderDetailId }) |
+                @Html.ActionLink("Details", "Details", new { id=item.OrderDetailId }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.OrderDetailId })
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>

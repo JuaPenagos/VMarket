@@ -16,5 +16,6 @@ namespace VMarket.Models
         [Display(Name = "Estado")]
         public String Name { get; set; }
 
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

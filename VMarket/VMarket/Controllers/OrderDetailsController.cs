@@ -67,18 +67,20 @@ namespace VMarket.Controllers
         {
 
             List<OrderDetail> Orders = OrderDetails.ToList();
+
                Orders[0].Order.Fecha=DateTime.Now;
                 
                 db.Orders.Add(Orders[0].Order);
-
+                
                 db.SaveChanges();
                 for (int i = 0; i < Orders.Count ; i++)
                 {
-                    db.OrderDetails.Add(Orders[i]);
+                Orders[i].Order = Orders[0].Order;
+                db.OrderDetails.Add(Orders[i]);
                     db.SaveChanges();
                 }
 
-            return Json(OrderDetails, JsonRequestBehavior.AllowGet);
+            return RedirectToAction("Index");
         }
 
         // GET: OrderDetails/Edit/5

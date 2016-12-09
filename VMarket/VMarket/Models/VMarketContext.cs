@@ -28,5 +28,7 @@ namespace VMarket.Models
         public System.Data.Entity.DbSet<VMarket.Models.Order> Orders { get; set; }
 
         public System.Data.Entity.DbSet<VMarket.Models.OrderDetail> OrderDetails { get; set; }
+
+        public System.Data.Entity.DbSet<VMarket.Models.User> Users { get; set; }
     }
 }

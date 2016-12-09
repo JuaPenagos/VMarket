@@ -6,118 +6,129 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using VMarket.Classes;
 using VMarket.Models;
 
 namespace VMarket.Controllers
 {
-    public class OrdersController : Controller
+    public class UsersController : Controller
     {
         private VMarketContext db = new VMarketContext();
 
-        // GET: Orders
+        // GET: Users
         public ActionResult Index()
         {
-            var orders = db.Orders.Include(o => o.State);
-            return View(orders.ToList());
+            var users = db.Users.Include(u => u.City);
+            return View(users.ToList());
         }
 
-        // GET: Orders/Details/5
+        // GET: Users/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = db.Orders.Find(id);
-            if (order == null)
+            User user = db.Users.Find(id);
+            if (user == null)
             {
                 return HttpNotFound();
             }
-            return View(order);
+            return View(user);
         }
 
-        // GET: Orders/Create
+        // GET: Users/Create
         public ActionResult Create()
         {
-            ViewBag.StateId = new SelectList(db.States, "StateId", "Name");
+            var Department = ComboxHelper.GetDepartment();
+            ViewBag.DepartmentId = new SelectList(Department, "DepartmentId", "Name");
+            ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name");
             return View();
         }
 
-        // POST: Orders/Create
+        // POST: Users/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "OrderId,Fecha,StateId")] Order order)
+        public ActionResult Create([Bind(Include = "UserId,UserName,Nombre,Apellido,Direccion,Telefono,Celular,CityId")] User user)
         {
             if (ModelState.IsValid)
             {
-                db.Orders.Add(order);
+                db.Users.Add(user);
                 db.SaveChanges();
+                UsersHelper.CreateUserASP(user.UserName,"User");
+
                 return RedirectToAction("Index");
             }
 
-            ViewBag.StateId = new SelectList(db.States, "StateId", "Name", order.StateId);
-            return View(order);
+            ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name", user.CityId);
+            return View(user);
         }
 
-        // GET: Orders/Edit/5
+        // GET: Users/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = db.Orders.Find(id);
-            if (order == null)
+            User user = db.Users.Find(id);
+            if (user == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.StateId = new SelectList(db.States, "StateId", "Name", order.StateId);
-            return View(order);
+            ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name", user.CityId);
+            return View(user);
         }
 
-        // POST: Orders/Edit/5
+        // POST: Users/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "OrderId,Fecha,StateId")] Order order)
+        public ActionResult Edit([Bind(Include = "UserId,UserName,Nombre,Apellido,Direccion,Telefono,Celular,CityId")] User user)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(order).State = EntityState.Modified;
+                db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.StateId = new SelectList(db.States, "StateId", "Name", order.StateId);
-            return View(order);
+            ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name", user.CityId);
+            return View(user);
         }
 
-        // GET: Orders/Delete/5
+        // GET: Users/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = db.Orders.Find(id);
-            if (order == null)
+            User user = db.Users.Find(id);
+            if (user == null)
             {
                 return HttpNotFound();
             }
-            return View(order);
+            return View(user);
         }
 
-        // POST: Orders/Delete/5
+        // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Order order = db.Orders.Find(id);
-            db.Orders.Remove(order);
+            User user = db.Users.Find(id);
+            db.Users.Remove(user);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+        public JsonResult GetCities(int departmentId)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            var cities = db.Cities.Where(c => c.DepartmentId == departmentId);
+            return Json(cities);
         }
 
         protected override void Dispose(bool disposing)

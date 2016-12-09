@@ -14,9 +14,11 @@ myApp.controller("ProductoCtrl", function ($scope, $http) {
     $scope.agregarProducto = function (aproducts) {
 
         console.log("Hola");
-        
-        console.log(aproducts);
-        $scope.Product.push(aproducts);
+        if ($scope.Product.indexOf(aproducts) == -1)
+        {
+            $scope.Product.push(aproducts);
+        }
+       
     };
     $scope.eliminarProducto = function (aproduct) {
         
@@ -41,30 +43,56 @@ myApp.controller("ProductoCtrl", function ($scope, $http) {
 
    
     $scope.agregarOrden = function (Product) {
-        OrderDetails = [{
+        OrderDetail = {
             OrderDetailId: 1,
-            Order: null,
+            Order: {
+                OrderId: null,
+                Fecha: null,
+                StateId: 1
+            },
             Product: null,
-            Cantidad: 20,
+            Cantidad: 0,
             Subtotal: 0
-        }];
-        console.log("Hola");
-        var orden = {OrderId :0,
-            Fecha : 2016-09-16
         };
-        
+        OrderDetails = [];
+        console.log("Hola Guardando");        
         var obj = $(this);
-       
- 
-        OrderDetails[0].Order = orden;
-        OrderDetails[0].ProductId =  $scope.Product[0].ProductId ;
-        OrderDetails[0].Cantidad = $scope.Product[0].CantidadReal;
-        OrderDetails[0].OrderDetailId = 2;
-        OrderDetails[0].Subtotal = $scope.Product[0].Cantidad * $scope.Product[0].Precio
+        console.log(OrderDetails);
+        console.log("Hola Guardando2");
+        console.log($scope.Product);
+        console.log($scope.Product.length);
+        if ($scope.Product.length == 0)
+        {
+            window.location.reload();
+        } else
+        {
+
+
+        for (var i = 0; i < $scope.Product.length; i++) {
+            OrderDetail = {
+                OrderDetailId: 1,
+                Order: {
+                    OrderId: null,
+                    Fecha: null,
+                    StateId: 1
+                },
+                Product: null,
+                Cantidad: 0,
+                Subtotal: 0
+            };
+            console.log($scope.Product[i]);
+            OrderDetail.ProductId = $scope.Product[i].ProductId;
+            OrderDetail.Cantidad = $scope.Product[i].CantidadReal;
+            OrderDetail.OrderDetailId = 2;
+            OrderDetail.Subtotal = $scope.Product[i].CantidadReal * $scope.Product[i].Precio
+            OrderDetails.push(OrderDetail);
+        }
+        
 
         OrderDetails = { OrderDetails: OrderDetails }
         
         console.log(OrderDetails);
+        
         $http({
             traditional: true,
             contentType: 'application/json; charset=utf-8',
@@ -74,9 +102,12 @@ myApp.controller("ProductoCtrl", function ($scope, $http) {
             dataType: "json"
 
         }).success(function (data) {
-            console.log("Producto Guardado")
+            
+            window.location.href = '../Home'
         })
-    };
+        }
+        };
+
     $scope.ObtenerCiudad = function (ciudadId) {
         alert(ciudadId);
         var ciudad = { ciudadID: ciudadId };
@@ -93,5 +124,6 @@ myApp.controller("ProductoCtrl", function ($scope, $http) {
         });
 
     }
+
 
 });

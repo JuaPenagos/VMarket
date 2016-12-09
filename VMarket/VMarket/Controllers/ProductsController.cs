@@ -64,7 +64,7 @@ namespace VMarket.Controllers
                 if (product.ImagenFile != null)
                 {
                     var pic = string.Empty;
-                    var folder = "~/Content/Imagenes";
+                    var folder = "../Content/Imagenes";
 
                     var response = FileHelper.UploadPhoto(product.ImagenFile, folder, String.Format("Imagen{0}.jpg", product.ProductId));
 
@@ -113,7 +113,7 @@ namespace VMarket.Controllers
                 if (product.ImagenFile != null)
                 {
                     var pic = string.Empty;
-                    var folder = "~/Content/Imagenes";
+                    var folder = "../Content/Imagenes";
 
                     var response = FileHelper.UploadPhoto(product.ImagenFile, folder, String.Format("Imagen{0}.jpg", product.ProductId));
 

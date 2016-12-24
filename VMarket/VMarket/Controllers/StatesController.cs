@@ -10,6 +10,7 @@ using VMarket.Models;
 
 namespace VMarket.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class StatesController : Controller
     {
         private VMarketContext db = new VMarketContext();
@@ -34,6 +35,7 @@ namespace VMarket.Controllers
             }
             return View(state);
         }
+
 
         // GET: States/Create
         public ActionResult Create()

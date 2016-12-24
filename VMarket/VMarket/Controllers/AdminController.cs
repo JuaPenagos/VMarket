@@ -6,8 +6,9 @@ using System.Web.Mvc;
 
 namespace VMarket.Controllers
 {
-    public class HomeController : Controller
+    public class AdminController : Controller
     {
+        // GET: Admin
         public ActionResult Index()
         {
             return View();
@@ -15,13 +16,14 @@ namespace VMarket.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+           
+
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+           
 
             return View();
         }

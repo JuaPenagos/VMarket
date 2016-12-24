@@ -15,8 +15,24 @@
 
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
 
-    <script src="../Content/js/jquery/jquery-1.8.2.min.js" type="text/javascript"></script>
-    <link href="../Content/css/customize-template.css" type="text/css" media="screen, projection" rel="stylesheet" />
+    <script src="~/Content/js/jquery/jquery-1.8.2.min.js" type="text/javascript"></script>
+    <link href="~/Content/css/customize-template.css" type="text/css" media="screen, projection" rel="stylesheet" />
+
+    <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,300,700,600' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,100' rel='stylesheet' type='text/css'>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="~/Content/css/owl.carousel.css">
+    <link rel="stylesheet" href="~/Content/css/styles.css">
+    <link rel="stylesheet" href="~/Content/css/responsive.css">
+
 
     <style>
         #body-content {
@@ -35,57 +51,60 @@
                 </button>
                 <a href="~/Home/index" class="brand"><i class="icon-leaf">Virtual Market</i></a>
                 <div id="app-nav-top-bar" class="nav-collapse">
-                    <div class="btn-group">
-                        <a class="btn btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#">
-                           Empresa
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Departamento", "Index", "Departments")</li>
-                            <li>@Html.ActionLink("Ciudad", "Index", "Cities")</li>
-                            <li>@Html.ActionLink("Categria", "Index", "Categories")</li>
-                            <li>@Html.ActionLink("Producto", "Index", "Products")</li>
-                            <li>@Html.ActionLink("Empresa", "Index", "Companies")</li>
-                            <li>@Html.ActionLink("Ordenes de Compra", "Index", "OrderDetails")</li>
-                        </ul>
-                    </div>              
-                            <div class="btn-group">
-                                <a class="btn btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#">
-                                    Usuarios
-                                    <span class="caret"></span>
-                                </a>
+                    <ul class="nav navbar-nav" style="font-weight:bold;">
+                       @if (!User.IsInRole("Admin"))
+                       {
+                         <li>@Html.ActionLink("Comprar", "Create", "OrderDetails")</li>
+                        <li>@Html.ActionLink("Mis Ordenes", "Index", "Orders")</li>
+                       }
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administracion Panel<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li>@Html.ActionLink("Compras", "Create", "OrderDetails")</li>
-                                    <li>@Html.ActionLink("Usuario", "Index", "Users")</li>
+                                    <li>@Html.ActionLink("Departamento", "Index", "Departments")</li>
+                                    <li>@Html.ActionLink("Ciudad", "Index", "Cities")</li>
+                                    <li>@Html.ActionLink("Categria", "Index", "Categories")</li>
+                                    <li>@Html.ActionLink("Empresa", "Index", "Companies")</li>
                                 </ul>
-                            </div>
-
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Compras<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Comprar", "Create", "OrderDetails")</li>
+                                    <li>@Html.ActionLink("Ordenes", "Index", "Orders")</li>
+                                    <li>@Html.ActionLink("Producto", "Index", "Products")</li>
+                                </ul>
+                            </li>
+                                <li>@Html.ActionLink("Informes", "Index", "Orders")</li>
+                        }
+                    </ul>
 
                         @Html.Partial("_LoginPartial")
-                    </div>
+</div>
             </div>
         </div>
     </div>
 
   
 
-    <script src="../Content/js/bootstrap/bootstrap-transition.js" type="text/javascript"></script>
-    <script src="../Content/js/bootstrap/bootstrap-alert.js" type="text/javascript"></script>
-    <script src="../Content/js/bootstrap/bootstrap-modal.js" type="text/javascript"></script>
-    <script src="../Content/js/bootstrap/bootstrap-dropdown.js" type="text/javascript"></script>
-    <script src="../Content/js/bootstrap/bootstrap-scrollspy.js" type="text/javascript"></script>
-    <script src="../Content/js/bootstrap/bootstrap-tab.js" type="text/javascript"></script>
-    <script src="../Content/js/bootstrap/bootstrap-tooltip.js" type="text/javascript"></script>
-    <script src="../Content/js/bootstrap/bootstrap-popover.js" type="text/javascript"></script>
-    <script src="../Content/js/bootstrap/bootstrap-button.js" type="text/javascript"></script>
-    <script src="../Content/js/bootstrap/bootstrap-collapse.js" type="text/javascript"></script>
-    <script src="../Content/js/bootstrap/bootstrap-carousel.js" type="text/javascript"></script>
-    <script src="../Content/js/bootstrap/bootstrap-typeahead.js" type="text/javascript"></script>
-    <script src="../Content/js/bootstrap/bootstrap-affix.js" type="text/javascript"></script>
-    <script src="../Content/js/bootstrap/bootstrap-datepicker.js" type="text/javascript"></script>
-    <script src="../Content/js/jquery/jquery-tablesorter.js" type="text/javascript"></script>
-    <script src="../Content/js/jquery/jquery-chosen.js" type="text/javascript"></script>
-    <script src="../Content/js/jquery/virtual-tour.js" type="text/javascript"></script>
+    <script src="~/Content/js/bootstrap/bootstrap-transition.js" type="text/javascript"></script>
+    <script src="~/Content/js/bootstrap/bootstrap-alert.js" type="text/javascript"></script>
+    <script src="~/Content/js/bootstrap/bootstrap-modal.js" type="text/javascript"></script>
+    <script src="~/Content/js/bootstrap/bootstrap-dropdown.js" type="text/javascript"></script>
+    <script src="~/Content/js/bootstrap/bootstrap-scrollspy.js" type="text/javascript"></script>
+    <script src="~/Content/js/bootstrap/bootstrap-tab.js" type="text/javascript"></script>
+    <script src="~/Content/js/bootstrap/bootstrap-tooltip.js" type="text/javascript"></script>
+    <script src="~/Content/js/bootstrap/bootstrap-popover.js" type="text/javascript"></script>
+    <script src="~/Content/js/bootstrap/bootstrap-button.js" type="text/javascript"></script>
+    <script src="~/Content/js/bootstrap/bootstrap-collapse.js" type="text/javascript"></script>
+    <script src="~/Content/js/bootstrap/bootstrap-carousel.js" type="text/javascript"></script>
+    <script src="~/Content/js/bootstrap/bootstrap-typeahead.js" type="text/javascript"></script>
+    <script src="~/Content/js/bootstrap/bootstrap-affix.js" type="text/javascript"></script>
+    <script src="~/Content/js/bootstrap/bootstrap-datepicker.js" type="text/javascript"></script>
+    <script src="~/Content/js/jquery/jquery-tablesorter.js" type="text/javascript"></script>
+    <script src="~/Content/js/jquery/jquery-chosen.js" type="text/javascript"></script>
+    <script src="~/Content/js/jquery/virtual-tour.js" type="text/javascript"></script>
     <script type="text/javascript">
         $(function() {
             $('#sample-table').tablesorter();

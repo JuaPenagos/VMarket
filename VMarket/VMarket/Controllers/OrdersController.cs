@@ -17,8 +17,23 @@ namespace VMarket.Controllers
         // GET: Orders
         public ActionResult Index()
         {
-            var orders = db.Orders.Include(o => o.State);
-            return View(orders.ToList());
+            var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+            if (User.IsInRole("User"))
+            {
+                var order = db.Orders.Where(o => o.UserId == user.UserId).Include(o => o.User).ToList();
+                foreach (var orders in order) { 
+                    orders.State = db.States.Where(s => s.StateId == orders.StateId).FirstOrDefault(); 
+                }
+                return View(order);
+            }
+            else  {
+                var order = db.Orders.ToList();
+                foreach (var orders in order)
+                {
+                    orders.State = db.States.Where(s => s.StateId == orders.StateId).FirstOrDefault();
+                }
+                return View(order);
+            }
         }
 
         // GET: Orders/Details/5
@@ -39,7 +54,6 @@ namespace VMarket.Controllers
         // GET: Orders/Create
         public ActionResult Create()
         {
-            ViewBag.StateId = new SelectList(db.States, "StateId", "Name");
             return View();
         }
 
@@ -48,7 +62,7 @@ namespace VMarket.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "OrderId,Fecha,StateId")] Order order)
+        public ActionResult Create([Bind(Include = "OrderId,Fecha,StateId,UserId")] Order order)
         {
             if (ModelState.IsValid)
             {
@@ -57,7 +71,6 @@ namespace VMarket.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.StateId = new SelectList(db.States, "StateId", "Name", order.StateId);
             return View(order);
         }
 
@@ -73,7 +86,6 @@ namespace VMarket.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.StateId = new SelectList(db.States, "StateId", "Name", order.StateId);
             return View(order);
         }
 
@@ -82,7 +94,7 @@ namespace VMarket.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "OrderId,Fecha,StateId")] Order order)
+        public ActionResult Edit([Bind(Include = "OrderId,Fecha,StateId,UserId")] Order order)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +102,6 @@ namespace VMarket.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.StateId = new SelectList(db.States, "StateId", "Name", order.StateId);
             return View(order);
         }
 

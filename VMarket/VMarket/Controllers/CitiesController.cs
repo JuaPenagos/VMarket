@@ -11,6 +11,7 @@ using VMarket.Models;
 
 namespace VMarket.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CitiesController : Controller
     {
         private VMarketContext db = new VMarketContext();

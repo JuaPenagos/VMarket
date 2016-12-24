@@ -21,7 +21,12 @@ namespace VMarket.Controllers
             var users = db.Users.Include(u => u.City);
             return View(users.ToList());
         }
-
+        public JsonResult getUser()
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+            return Json(user, JsonRequestBehavior.AllowGet);
+        }
         // GET: Users/Details/5
         public ActionResult Details(int? id)
         {
@@ -78,6 +83,8 @@ namespace VMarket.Controllers
             {
                 return HttpNotFound();
             }
+            var Department = ComboxHelper.GetDepartment();
+            ViewBag.DepartmentId = new SelectList(Department, "DepartmentId", "Name");
             ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name", user.CityId);
             return View(user);
         }
@@ -91,10 +98,20 @@ namespace VMarket.Controllers
         {
             if (ModelState.IsValid)
             {
+                var db2 = new VMarketContext();
+
+                var currentUser = db2.Users.Find(user.UserId);
+                if (currentUser.UserName != user.UserName)
+                {
+                    UsersHelper.UpdateUserName(currentUser.UserName, user.UserName);
+                }
+                db2.Dispose();
+
                 db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
             ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name", user.CityId);
             return View(user);
         }
@@ -122,6 +139,7 @@ namespace VMarket.Controllers
             User user = db.Users.Find(id);
             db.Users.Remove(user);
             db.SaveChanges();
+            UsersHelper.DeleteUser(user.UserName);
             return RedirectToAction("Index");
         }
         public JsonResult GetCities(int departmentId)

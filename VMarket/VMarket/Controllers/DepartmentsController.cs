@@ -10,6 +10,7 @@ using VMarket.Models;
 
 namespace VMarket.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class DepartmentsController : Controller
     {
         private VMarketContext db = new VMarketContext();

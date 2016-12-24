@@ -3,9 +3,6 @@
 @{
     ViewBag.Title = "Index";
 }
-
-<h2>Index</h2>
-
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <title>Simple Dashboard</title>
@@ -33,89 +30,127 @@
 <link rel="stylesheet" media="screen" href="../Content/vendors/easypiechart/jquery.easy-pie-chart.css">
 <link rel="stylesheet" media="screen" href="../Content/vendors/easypiechart/jquery.easy-pie-chart_custom.css">
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Category.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cantidad)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Estado)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CantidadMax)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CantidadMin)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CodigoBarras)
-        </th>
 
-        <th>
-            @Html.DisplayNameFor(model => model.Precio)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Imagen)
-        </th>
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cantidad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CantidadMax)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CantidadMin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CodigoBarras)
-            </td>
+<div class="product-big-title-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-bit-title text-center">
 
-            <td>
-                @Html.DisplayFor(modelItem => item.Precio)
-            </td>
-            <td>
-                @if (!string.IsNullOrEmpty(item.Imagen))
+                    <h2>PRODUCTOS</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div> <!-- End Page title area -->
+
+  
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="single-product-area">
+            @Html.ActionLink("Create New", "Create", new { @class = "btn btn-success" })
+            <div class="zigzag-bottom"></div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="text-muted bootstrap-admin-box-title">Ordenes de Compra</div>
+
+                </div>
+                <div class="bootstrap-admin-panel-content">
+                    <table class="table">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Category.Description)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Nombre)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Cantidad)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Estado)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CantidadMax)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CantidadMin)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CodigoBarras)
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.Precio)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Imagen)
+                            </th>
+                            <th></th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Category.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Nombre)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Cantidad)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Estado)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CantidadMax)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CantidadMin)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CodigoBarras)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Precio)
+                                </td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.Imagen))
                 {
-                    <img src="@Url.Content(item.Imagen)" alt="Image" style="width:100px;height:150px;max-width: 100%; height: auto;" />
-                }
+                                        <img src="@Url.Content(item.Imagen)" alt="Image" style="width:100px;height:150px;max-width: 100%; height: auto;" />
+                                    }
 
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ProductId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ProductId })
-            </td>
-        </tr>
-    }
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }, new { @class = "btn btn-warning" }) 
+                                    @Html.ActionLink("Details", "Details", new { id = item.ProductId }, new { @class = "btn btn-info" }) 
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.ProductId }, new { @class = "btn btn-danger" })
+                                </td>
+                            </tr>
+                        }
 
-</table>
+                    </table>
+                </div>
+            </div>
+        </div>
 
 
+    </div>
 
-        <script src="~/Scripts/angular.js"></script>
-        <script src="~/Scripts/Producto.js"></script>
+
+</div>
+
+    </div>
+</div>
+
+
+<script src="~/Scripts/angular.js"></script>
+<script src="~/Scripts/Producto.js"></script>
 

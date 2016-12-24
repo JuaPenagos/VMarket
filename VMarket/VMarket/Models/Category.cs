@@ -16,6 +16,5 @@ namespace VMarket.Models
         [Display(Name = "Categoria")]
         public String Description { get; set; }
 
-        public virtual ICollection<Category> Categories { get; set; }
     }
 }

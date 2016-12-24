@@ -1,47 +1,114 @@
 ﻿@model IEnumerable<VMarket.Models.Order>
 
 @{
-    Layout = null;
+    ViewBag.Title = "Index";
 }
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.State.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Fecha)
-            </th>
-            <th></th>
-        </tr>
-    
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.State.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fecha)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.OrderId }) |
-                @Html.ActionLink("Details", "Details", new { id=item.OrderId }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.OrderId })
-            </td>
-        </tr>
-    }
-    
-    </table>
-</body>
-</html>
+
+    <div ng-app="Producto">
+    <div ng-controller="ProductoCtrl">
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")
+
+
+
+
+        <div class="product-big-title-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="product-bit-title text-center">
+
+                            <h2>ORDENES DE COMPRA</h2>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div> <!-- End Page title area -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="single-product-area">
+                    <div class="zigzag-bottom"></div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="text-muted bootstrap-admin-box-title">Ordenes de Compra</div>
+
+                        </div>
+                        <div class="bootstrap-admin-panel-content">
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Fecha)
+                                    </th>
+                                    <th>
+                                        Estado del Pedido
+                                    </th>
+                                    <th>
+                                        Cliente
+
+                                    </th>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <th>
+                                            Contacto
+
+                                        </th>
+                                    }
+                                    <th></th>
+                                </tr>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Fecha)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.State.Name)
+                                        </td>
+
+                                        <td>
+                                            {{User.Nombre}}  {{User.Apellido}}
+                                        </td>
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <td>
+                                                dir: {{User.Direccion}}      cel: {{User.Celular}}
+                                            </td>
+                                        }
+                                        <td>
+                                            @if (User.IsInRole("Admin"))
+                                            {
+                                                @Html.ActionLink("Edit", "Edit", new { id = item.OrderId }, new { @class = "btn btn-warning" })
+
+                                                @Html.ActionLink("Delete", "Delete", new { id = item.OrderId }, new { @class = "btn btn-danger" })
+                                            }
+                                            @Html.RouteLink("Details", new { action = "Index", controller = "OrderDetails", id = item.OrderId }, new { @class = "btn btn-info" })
+
+                                        </td>
+                                    </tr>
+                                }
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<script src="~/Scripts/angular.js"></script>
+<script src="~/Scripts/Producto.js"></script>

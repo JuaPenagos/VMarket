@@ -124,6 +124,13 @@ myApp.controller("ProductoCtrl", function ($scope, $http) {
         });
 
     }
+    $http.get("../Users/getUser").success(function (data) {
 
+        $scope.User = data;
 
+    }).
+    error(function (data, status, headers, config) {
+    }
+    );
+   
 });

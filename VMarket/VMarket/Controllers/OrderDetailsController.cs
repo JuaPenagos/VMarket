@@ -10,14 +10,17 @@ using VMarket.Models;
 
 namespace VMarket.Controllers
 {
+    [Authorize(Roles = "User, Admin") ]
+    
     public class OrderDetailsController : Controller
     {
         private VMarketContext db = new VMarketContext();
 
         // GET: OrderDetails
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
-            var orderDetails = db.OrderDetails.Include(o => o.Order).Include(o => o.Product);
+            var orderDetails = db.OrderDetails.Include(o => o.Order)
+                .Include(o => o.Product).Where(o => o.OrderId == id);
             return View(orderDetails.ToList());
         }
 
@@ -28,7 +31,7 @@ namespace VMarket.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            OrderDetail orderDetail = db.OrderDetails.Find(id);
+            OrderDetail orderDetail = db.OrderDetails.Where(o => o.OrderId == id).FirstOrDefault();
             if (orderDetail == null)
             {
                 return HttpNotFound();
@@ -65,11 +68,12 @@ namespace VMarket.Controllers
         [HttpPost]
         public ActionResult Guardar(List<OrderDetail> OrderDetails)
         {
-
+            var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
             List<OrderDetail> Orders = OrderDetails.ToList();
 
                Orders[0].Order.Fecha=DateTime.Now;
-                
+               Orders[0].Order.UserId = user.UserId;
+
                 db.Orders.Add(Orders[0].Order);
                 
                 db.SaveChanges();

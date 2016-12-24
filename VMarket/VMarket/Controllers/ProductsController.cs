@@ -11,6 +11,7 @@ using VMarket.Models;
 
 namespace VMarket.Controllers
 {
+    
     public class ProductsController : Controller
     {
         private VMarketContext db = new VMarketContext();
@@ -21,6 +22,7 @@ namespace VMarket.Controllers
             var products = db.Products.Include(p => p.Category);
             return View(products.ToList());
         }
+        [Authorize(Roles = "User, Admin")]
         public JsonResult getProducts()
         {
             db.Configuration.ProxyCreationEnabled = false;

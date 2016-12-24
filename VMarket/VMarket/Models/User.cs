@@ -42,5 +42,8 @@ namespace VMarket.Models
         public int CityId { get; set; }
 
         public virtual City City { get; set; }
+
+        [NotMapped]
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }
